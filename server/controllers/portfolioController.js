@@ -112,12 +112,6 @@ const defaultData = {
       title: 'EKAIVA Hackathon – Agamya Tech Summit 2025',
       description: 'Participated and showcased innovative tech solutions at this hackathon event.',
     },
-    {
-      icon: '🤖',
-      title: 'AI & Machine Learning Certification',
-      description:
-        'Completed training in Artificial Intelligence, Machine Learning Fundamentals, and Google Cloud Platform (GCP).',
-    },
   ],
   education: [
     {
@@ -134,9 +128,6 @@ const defaultData = {
     },
   ],
   certifications: [
-    'Artificial Intelligence',
-    'Machine Learning Fundamentals',
-    'Google Cloud Platform (GCP)',
     'Google Cloud Agentic AI Day – Participant, organized by Hack2Skill, 2025',
     'EKAIVA Hackathon – Participant, Agamya Tech Summit, 2025',
   ],
