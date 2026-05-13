@@ -1,18 +1,15 @@
 const mongoose = require('mongoose');
 
-// Skill sub-schema
 const SkillSchema = new mongoose.Schema({
   icon: String,
   name: String,
   detail: String,
 });
 
-// Internship point sub-schema
 const InternPointSchema = new mongoose.Schema({
   text: String,
 });
 
-// Project sub-schema
 const ProjectSchema = new mongoose.Schema({
   icon: String,
   title: String,
@@ -22,14 +19,20 @@ const ProjectSchema = new mongoose.Schema({
   isWinner: { type: Boolean, default: false },
 });
 
-// Achievement sub-schema
 const AchievementSchema = new mongoose.Schema({
   icon: String,
   title: String,
   description: String,
 });
 
-// Main Portfolio schema
+const SkillSectionSchema = new mongoose.Schema(
+  {
+    title: String,
+    items: String,
+  },
+  { _id: false }
+);
+
 const PortfolioSchema = new mongoose.Schema(
   {
     owner: { type: String, default: 'Nisha G' },
@@ -41,6 +44,7 @@ const PortfolioSchema = new mongoose.Schema(
     about: String,
     badges: [String],
     skills: [SkillSchema],
+    skillSections: [SkillSectionSchema],
     internship: {
       title: String,
       location: String,
