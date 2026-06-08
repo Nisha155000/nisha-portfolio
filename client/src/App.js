@@ -12,6 +12,29 @@ import InternshipPanel from './components/InternshipPanel';
 import ProjectsPanel from './components/ProjectsPanel';
 import AchievementsPanel from './components/AchievementsPanel';
 import ResumePanel from './components/ResumePanel';
+import CertificateViewer from './components/CertificateViewer';
+
+const mergeUnique = (base = [], override = []) => {
+  const seen = new Set();
+  return [...base, ...override].filter((item) => {
+    const key =
+      typeof item === 'string'
+        ? item
+        : item && typeof item === 'object' && item.title
+          ? item.title
+          : JSON.stringify(item);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
+
+const getCertificateImage = (label = '') => {
+  if (label.includes('Code4Change') || label.includes('Best of FinTech')) return '/certificates/code4change-fintech.jpg';
+  if (label.includes('Google Cloud Agentic AI Day')) return '/certificates/google-agentic-ai-day.jpg';
+  if (label.includes('EKAIVA') || label.includes('Agamya Tech Summit')) return '/certificates/ekaiva-hackathon.jpg';
+  return '';
+};
 
 const HINTS = {
   home: '👆 Click Doraemon for surprises!',
@@ -27,11 +50,22 @@ export default function App() {
   const [hint, setHint] = useState(HINTS.home);
   const [data, setData] = useState(fallbackData);
   const [loading, setLoading] = useState(true);
+  const [selectedCertificate, setSelectedCertificate] = useState(null);
 
   useEffect(() => {
     axios
       .get('/api/portfolio')
-      .then((res) => setData({ ...fallbackData, ...res.data }))
+      .then((res) =>
+        setData({
+          ...fallbackData,
+          ...res.data,
+          skills: mergeUnique(fallbackData.skills, res.data?.skills),
+          skillSections: mergeUnique(fallbackData.skillSections, res.data?.skillSections),
+          projects: mergeUnique(fallbackData.projects, res.data?.projects),
+          achievements: mergeUnique(fallbackData.achievements, res.data?.achievements),
+          certifications: mergeUnique(fallbackData.certifications, res.data?.certifications),
+        })
+      )
       .catch(() => setData(fallbackData))
       .finally(() => setLoading(false));
   }, []);
@@ -72,9 +106,25 @@ export default function App() {
         <SkillsPanel active={activePanel === 'skills'} skills={data.skills} />
         <InternshipPanel active={activePanel === 'internship'} internship={data.internship} />
         <ProjectsPanel active={activePanel === 'projects'} projects={data.projects} />
-        <AchievementsPanel active={activePanel === 'achievements'} achievements={data.achievements} />
-        <ResumePanel active={activePanel === 'resume'} data={data} />
+        <AchievementsPanel
+          active={activePanel === 'achievements'}
+          achievements={data.achievements}
+          onOpenCertificate={setSelectedCertificate}
+          getCertificateImage={getCertificateImage}
+        />
+        <ResumePanel
+          active={activePanel === 'resume'}
+          data={data}
+          onOpenCertificate={setSelectedCertificate}
+          getCertificateImage={getCertificateImage}
+        />
       </div>
+
+      <CertificateViewer
+        open={Boolean(selectedCertificate)}
+        item={selectedCertificate}
+        onClose={() => setSelectedCertificate(null)}
+      />
     </div>
   );
 }

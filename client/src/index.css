@@ -146,9 +146,119 @@ body {
 /* ── Achievements ── */
 .ach-card { background: linear-gradient(135deg,#FFF3E0,#FFE0B2); border: 2px solid #E65100; border-radius: 14px; padding: 13px 14px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; box-shadow: 3px 3px 0 #E65100; transition: transform 0.2s; }
 .ach-card:hover { transform: scale(1.02); }
+.ach-card-btn { width: 100%; text-align: left; cursor: pointer; font: inherit; appearance: none; }
 .ach-icon { font-size: 28px; flex-shrink: 0; }
 .ach-card p { font-size: 13px; color: #BF360C; font-weight: 600; line-height: 1.45; }
 .ach-card p strong { display: block; font-size: 14px; color: #7F2700; }
+
+/* â”€â”€ Certificate viewer â”€â”€ */
+.cert-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.52);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 16px;
+}
+.cert-modal {
+  width: min(980px, 100%);
+  max-height: 92vh;
+  position: relative;
+}
+.cert-image {
+  display: block;
+  width: min(980px, 100%);
+  max-height: 92vh;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  background: white;
+}
+.cert-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  z-index: 2;
+  border: 0;
+  background: transparent;
+  color: #5d4037;
+  font-size: 34px;
+  cursor: pointer;
+  line-height: 1;
+}
+.cert-sheet {
+  min-height: 560px;
+  background: linear-gradient(180deg, #fffdf7 0%, #fff7ec 100%);
+  border: 6px solid #d9b23c;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  border-radius: 10px;
+  padding: 32px 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.cert-badges {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: #8c6b00;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.cert-title {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(28px, 5vw, 54px);
+  color: #4a148c;
+  font-weight: 800;
+  line-height: 1.05;
+}
+.cert-subtitle {
+  margin-top: 10px;
+  font-size: clamp(14px, 2vw, 20px);
+  color: #b26b00;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.cert-presented {
+  margin-top: 32px;
+  font-size: 16px;
+  color: #5d4037;
+}
+.cert-name {
+  margin-top: 8px;
+  font-size: clamp(28px, 5vw, 46px);
+  color: #1a237e;
+  font-family: 'Baloo 2', cursive;
+}
+.cert-body {
+  margin-top: 28px;
+  max-width: 760px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #4e342e;
+}
+.cert-footer {
+  width: 100%;
+  margin-top: 54px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #5d4037;
+  font-weight: 700;
+  font-size: 13px;
+}
+@media (max-width: 640px) {
+  .cert-sheet { min-height: 480px; padding: 22px; }
+  .cert-footer { flex-direction: column; align-items: center; text-align: center; margin-top: 30px; }
+}
 
 /* ── Resume ── */
 .resume-card { background: linear-gradient(135deg,#FFF9C4,#FFF176); border: 2px solid #F57F17; border-radius: 16px; padding: 20px; box-shadow: 4px 4px 0 #F57F17; }
@@ -161,6 +271,21 @@ body {
 .resume-item { margin-bottom: 9px; }
 .resume-item strong { display: block; font-size: 13px; color: #3E2723; font-weight: 700; }
 .resume-item span   { font-size: 12px; color: #5D4037; line-height: 1.6; }
+.resume-cert-btn {
+  width: 100%;
+  text-align: left;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+.resume-cert-btn span {
+  display: block;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(245, 127, 23, 0.28);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
 
 /* ── Star burst ── */
 .star { position: fixed; pointer-events: none; font-size: 18px; animation: starFloat 1.4s ease-out forwards; z-index: 9999; }

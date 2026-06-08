@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function ResumePanel({ active, data }) {
+export default function ResumePanel({ active, data, onOpenCertificate, getCertificateImage = () => '' }) {
   if (!data) return null;
 
   return (
@@ -59,9 +59,23 @@ export default function ResumePanel({ active, data }) {
         <div className="resume-section">
           <h3>✅ Certifications</h3>
           {data.certifications?.map((cert, i) => (
-            <div className="resume-item" key={i}>
+            <button
+              type="button"
+              className="resume-item resume-cert-btn"
+              key={i}
+              onClick={() =>
+                onOpenCertificate?.({
+                  title: cert,
+                  subtitle: 'Certificate',
+                  description: 'Original certificate image preview.',
+                  footerLeft: 'Nisha G',
+                  footerRight: 'Certificate',
+                  imageSrc: getCertificateImage(cert),
+                })
+              }
+            >
               <span>{cert}</span>
-            </div>
+            </button>
           ))}
         </div>
 
