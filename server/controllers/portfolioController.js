@@ -1,5 +1,15 @@
 const Portfolio = require('../models/Portfolio');
 
+const mergeUnique = (base = [], override = []) => {
+  const seen = new Set();
+  return [...base, ...override].filter((item) => {
+    const key = typeof item === 'string' ? item : JSON.stringify(item);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+};
+
 // Seed / default data based on the latest portfolio resume.
 const defaultData = {
   owner: 'Nisha G',
@@ -49,7 +59,7 @@ const defaultData = {
   internship: {
     title: '🤖 AI Voice Bot Developer Intern',
     location: 'GM University, Davanagere, Karnataka',
-    year: '2025',
+    year: '2026',
     points: [
       {
         text: 'Designed and deployed an AI-powered Voice Bot using Python and NLP libraries to automate customer query handling, reducing manual response time by approximately 40%.',
@@ -70,10 +80,19 @@ const defaultData = {
     {
       icon: '🤖',
       title: 'AI Voice Bot',
-      year: '2025',
+      year: '2026',
       description:
         'Built a Python and NLP-powered voice bot with intent recognition and REST API integration, reducing manual response time by 40% across 500+ interactions.',
       tags: ['Python', 'NLP', 'REST API', 'Conversational AI'],
+      isWinner: false,
+    },
+    {
+      icon: '🧠',
+      title: 'Multi-Agent Autonomous Research Assistant',
+      year: '2026',
+      description:
+        'Built an AI-powered multi-agent research assistant that can break down complex questions, search and summarize information, coordinate task-specific agents, and generate structured insights for faster academic and project research.',
+      tags: ['AI Agents', 'Research Automation', 'LLM Workflow', 'Prompting', 'Python'],
       isWinner: false,
     },
     {
@@ -99,31 +118,27 @@ const defaultData = {
     {
       icon: '🥇',
       title: 'Best of FinTech Award – Code4Change Hackathon 2025',
-      description: 'Recognized among 100+ competing teams for the Crypto-Pay blockchain payment project built on Solana.',
+      description:
+        'Certificate of achievement for winning Best of FinTech at Code4Change Hackathon 2025 with the Crypto-Pay blockchain payment project built on Solana.',
     },
     {
       icon: '☁️',
       title: 'Google Cloud Agentic AI Day – 2025',
       description:
-        'Participant at the event organized by Hack2Skill. Explored cutting-edge agentic AI solutions on Google Cloud.',
+        'Certificate of participation for Google Cloud Agentic AI Day, powered by Hack2Skill, with recognition for initiative and contribution.',
     },
     {
       icon: '💻',
       title: 'EKAIVA Hackathon – Agamya Tech Summit 2025',
-      description: 'Participated and showcased innovative tech solutions at this hackathon event.',
-    },
-    {
-      icon: '🤖',
-      title: 'AI & Machine Learning Certification',
       description:
-        'Completed training in Artificial Intelligence, Machine Learning Fundamentals, and Google Cloud Platform (GCP).',
+        'Certificate of participation for attending EKAIVA Hackathon 2025 at SDMCET, Dharwad, organized by Agamya Cyber Tech in association with CySeCK and IEEE KLEIT Computer Society.',
     },
   ],
   education: [
     {
       degree: 'MCA',
       institute: 'GM University, Davanagere, Karnataka',
-      year: '2023–2025',
+      year: '2024–2026',
       cgpa: '7.70 / 10.00',
     },
     {
@@ -134,11 +149,9 @@ const defaultData = {
     },
   ],
   certifications: [
-    'Artificial Intelligence',
-    'Machine Learning Fundamentals',
-    'Google Cloud Platform (GCP)',
-    'Google Cloud Agentic AI Day – Participant, organized by Hack2Skill, 2025',
-    'EKAIVA Hackathon – Participant, Agamya Tech Summit, 2025',
+    'Code4Change Hackathon 2025 – Best of FinTech Certificate',
+    'Google Cloud Agentic AI Day 2025 – Certificate of Participation',
+    'EKAIVA Hackathon 2025 – Certificate of Participation, Agamya Tech Summit (September 20, 2025)',
   ],
 };
 
@@ -156,8 +169,11 @@ const getPortfolio = async (req, res) => {
     res.json({
       ...defaultData,
       ...portfolioObject,
-      skillSections: portfolioObject.skillSections?.length ? portfolioObject.skillSections : defaultData.skillSections,
-      certifications: portfolioObject.certifications?.length ? portfolioObject.certifications : defaultData.certifications,
+      skills: mergeUnique(defaultData.skills, portfolioObject.skills),
+      skillSections: mergeUnique(defaultData.skillSections, portfolioObject.skillSections),
+      projects: mergeUnique(defaultData.projects, portfolioObject.projects),
+      achievements: mergeUnique(defaultData.achievements, portfolioObject.achievements),
+      certifications: mergeUnique(defaultData.certifications, portfolioObject.certifications),
     });
   } catch (err) {
     // Fallback: return static data if DB unavailable
